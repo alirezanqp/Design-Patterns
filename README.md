@@ -1,2 +1,2 @@
-# typescript-design-patterns
+# typescript-patterns
 TypeScript Design Patterns Examples

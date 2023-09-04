@@ -2,20 +2,18 @@ class Payment {
     private paymentMethod: PaymentMethod;
     private amount: number;
 
-    constructor(amount: number, method: PaymentTypes) {
-        const factoryMethod = new PaymentFactoryMethod()
-        this.paymentMethod = factoryMethod.makePaymentMethod(method)
-
+    constructor(amount: number, paymentMethod: PaymentMethod) {
+        this.paymentMethod = paymentMethod;
         this.amount = amount;
     }
 
     pay() {
-        this.paymentMethod.pay(this.amount)
+        return this.paymentMethod.pay(this.amount)
     }
 }
 
-class PaymentFactoryMethod {
-    makePaymentMethod(method: PaymentTypes): PaymentMethod {
+class PaymentFactory {
+    static createPaymentMethod(method: PaymentTypes): PaymentMethod {
         switch (method) {
             case PaymentTypes.BitCoinPayment:
                 return new BitCoinPayment();
@@ -47,3 +45,8 @@ class BitCoinPayment implements PaymentMethod {
         return `payment bitcoin: ${amount}`
     }
 }
+
+const paymentMethod = PaymentFactory.createPaymentMethod(PaymentTypes.PayPalPayment);
+const payment = new Payment(30, paymentMethod)
+
+console.log(payment.pay());
